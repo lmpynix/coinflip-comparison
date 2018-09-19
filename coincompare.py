@@ -19,3 +19,7 @@ def coincompare():
     if save_final != "":
         with open(save_final, "w") as finalfile:
             json.dump(analyzed_data, finalfile)
+
+
+if __name__ == "__main__":
+    coincompare()
