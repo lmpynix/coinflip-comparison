@@ -50,4 +50,6 @@ def coincompare_csv():
             );"""))
     # Now we go through each season and add it to the table.
     for analyzed_season in analyzed_seasons:
-        db.execute("INSERT INTO TeamsSeasons VALUES (?, ?, ?)", ())
+        data_tuple = (analyzed_season[0] + analyzed_season[1], analyzed_season[0], analyzed_season[1])
+        db.execute("INSERT INTO TeamsSeasons VALUES (?, ?, ?)", data_tuple)
+        # Finally, and this is the fun one, we add each streak to a table with its corresponding season and team.  Oh boy!
