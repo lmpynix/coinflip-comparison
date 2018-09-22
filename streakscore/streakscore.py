@@ -28,8 +28,10 @@ def streak_analyzer(data: str) -> list:
         resultlist.append(lengthresultlist)
     return resultlist
 
+
 def coin_flip_prob(wins: int, n: int) -> float:
-    return (special.binom(n, wins) * 0.5**wins * (0.5)**(n - wins))
+    signum = -1 if wins < n * 0.5 else 1  # Use a signum function to make losing streaks negative.
+    return signum * special.binom(n, wins) * 0.5 ** wins * 0.5 ** (n - wins)  # This is the coin flip probability.
 
 if __name__ == "__main__":
     data = streak_analyzer(input("Data string > "))
