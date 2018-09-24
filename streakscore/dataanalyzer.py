@@ -1,7 +1,7 @@
 import json
 
 
-def data_analyzer(data_list: list) -> list:
+def data_analyzer(data_list: list, quiet: bool) -> list:
     """
     Takes in a list of lists of lists spit out by the score generator.
     It then uses a best-so-far system to determine the best streak for each streak length.
@@ -14,10 +14,11 @@ def data_analyzer(data_list: list) -> list:
                 highest_score = streak
         high_scores.append(highest_score)
     # Data accumulated and sorted.  Now we need to export it or print it out in a readable format.
-    print("Streak Length | Highest Score | Start Position | Wins")
-    for highscore_entry in high_scores:
-        print("%13d | %13f | %14d | %13d" % (
-            highscore_entry[0], highscore_entry[3], highscore_entry[1], highscore_entry[2]))
+    if not quiet:
+        print("Streak Length | Highest Score | Start Position | Wins")
+        for highscore_entry in high_scores:
+            print("%13d | %13f | %14d | %13d" % (
+                highscore_entry[0], highscore_entry[3], highscore_entry[1], highscore_entry[2]))
     return high_scores
 
 

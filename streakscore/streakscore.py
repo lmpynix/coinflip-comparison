@@ -7,16 +7,18 @@ STARTLENGTH = 3  # The length of sequence we start looking at.  There's no point
 POSITIVEVALUE = "1" # Character we are looking for as being a positive thing.
 
 
-def streak_analyzer(data: str) -> list:
+def streak_analyzer(data: str, quiet: bool) -> list:
     resultlist = list()
     winaccum = int()
     datalength = len(data)
     NMAX = datalength
     for samplelength in range(STARTLENGTH, NMAX):  # For every sample length between the minimum and maximum,
-        print("New sample length: " + str(samplelength))
+        if not quiet:
+            print("New sample length: " + str(samplelength))
         lengthresultlist = []
         for startpt in range(0, datalength - samplelength):  # For every startpoint the length could have,
-            print("Running start point " + str(startpt) + " of " + str(datalength - samplelength))
+            if not quiet:
+                print("Running start point " + str(startpt) + " of " + str(datalength - samplelength))
             winaccum = 0  # Re-initialize the win accumulator and the score for this particular set of data points.
             score = 0
             for entryind in range(startpt,
