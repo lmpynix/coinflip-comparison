@@ -28,11 +28,13 @@ def coincompare_csv():
     # Now we have a whole bunch of seasons that have a whole bunch of streaks and stuff.  Have we run out of RAM yet?
     # Let's make this an SQLite DB, shall we?
     # First remove the existing database for now.
+    # Ask the user for a database filename.
+    db_name = input("Filename for SQLite3 DB (Include extension) > ")
     try:
-        os.remove("coincompare.db")
+        os.remove(db_name)
     except FileNotFoundError:
-        print("coincompare.db doesn't exist.  That's okay, just less work for me.")
-    db = sqlite3.connect('coincompare.db')
+        print(db_name + " doesn't exist.  That's okay, just less work for me.")
+    db = sqlite3.connect(db_name)
     # Make a list of all of the teams present.
     for analyzed_season in analyzed_seasons:
         if analyzed_season[0] not in teams:
