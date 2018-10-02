@@ -1,10 +1,11 @@
 import csv
+import os
 import sqlite3
 import textwrap
-import streakscore.streakscore as ss
-import streakscore.dataanalyzer as da
 import time
-import os
+
+import streakscore.dataanalyzer as da
+import streakscore.streakscore as ss
 
 
 def coincompare_csv():
@@ -25,6 +26,9 @@ def coincompare_csv():
         analyzed_data = da.data_analyzer(raw_data, quiet=True)
         analyzed_seasons.append([season_entry[0], season_entry[1], analyzed_data])
         print("Processed season %s%s" % (season_entry[0], season_entry[1]))
+    end_time = time.time()
+    delta_time = end_time - start_time
+    print("Done processing data!  %fs elapsed." % delta_time)
     # Now we have a whole bunch of seasons that have a whole bunch of streaks and stuff.  Have we run out of RAM yet?
     # Let's make this an SQLite DB, shall we?
     # First remove the existing database for now.

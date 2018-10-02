@@ -1,6 +1,7 @@
 # Streak analyzer: Takes an input of a binary patterned string (e.g. WLLLWLLWLWLWLWLWLW) and interprets the
 # length of streaks and the probability those streaks would occur randomly.
 import json
+
 from scipy import special
 
 STARTLENGTH = 3  # The length of sequence we start looking at.  There's no point to say they won 2 out of the last 2.
@@ -33,7 +34,23 @@ def streak_analyzer(data: str, quiet: bool) -> list:
 
 def coin_flip_prob(wins: int, n: int) -> float:
     signum = -1 if wins < n * 0.5 else 1  # Use a signum function to make losing streaks negative.
-    return signum * special.binom(n, wins) * 0.5 ** wins * 0.5 ** (n - wins)  # This is the coin flip probability.
+    prob_accum = 0
+    # If the team did better than 50%, determine the probability of their number of wins or greater.
+    # Else determine the probability of their number of wins or less.
+    if signum > 0:
+        for possible_wins in range(wins, n):  # Probability of doing at least this well with a coin flip.
+            prob_accum += special.binom(n, possible_wins) * 0.5 ** n
+        if wins == n:
+            # Compute the probability of a perfect stretch.
+            prob_accum = special.binom(n, wins) * 0.5 ** n
+    else:
+        for possible_wins in range(0, wins):  # Probability of doing at least this badly with a coin flip.
+            prob_accum += special.binom(n, possible_wins) * 0.5 ** n
+        if wins == 0:
+            # Compute the probability of a perfect losing stretch.
+            prob_accum = special.binom(n, wins) * 0.5 ** n
+    return signum * prob_accum
+
 
 if __name__ == "__main__":
     data = streak_analyzer(input("Data string > "))
